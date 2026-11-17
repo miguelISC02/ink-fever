@@ -8,7 +8,7 @@ export const CONFIG = {
   // En tu computadora usa la API local; publicado, usa la API de Render.
   apiUrl: ["localhost", "127.0.0.1"].includes(location.hostname)
     ? "http://127.0.0.1:8000"
-    : "https://ink-fever-api.onrender.com", // ← cámbiala por la URL real de tu Web Service
+    : "https://ink-fever.onrender.com", // ← cámbiala por la URL real de tu Web Service
 
   // Contacto. WhatsApp con lada de país y sin "+" ni espacios: 52 + 10 dígitos
   whatsapp: "5572281869",
