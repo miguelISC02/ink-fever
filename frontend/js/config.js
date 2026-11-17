@@ -2,7 +2,7 @@
 // así que NUNCA pongas secretos (ni la service_role de Supabase ni el API secret de Cloudinary).
 export const CONFIG = {
   // Supabase → Project Settings → API
-  supabaseUrl: "https://kdlswnappwvjnoaykdja.supabase.co/rest/v1",
+  supabaseUrl: "https://kdlswnappwvjnoaykdja.supabase.co",
   supabaseKey: "sb_publishable_GsKHknULBkH40IOwtGgIVg_HsLpZiGM",
 
   // En tu computadora usa la API local; publicado, usa la API de Render.
