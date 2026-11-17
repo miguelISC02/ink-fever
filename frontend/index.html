@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ink Fever | Playeras y sudaderas con diseños propios</title>
+  <meta name="description" content="Playeras y sudaderas con diseños de Ink Fever. Busca tu diseño favorito y pídelo por WhatsApp.">
+  <meta name="theme-color" content="#000000">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ink Fever">
+  <meta property="og:description" content="Playeras y sudaderas con diseños propios. Elige el tuyo y pídelo por WhatsApp.">
+
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+  <a class="visually-hidden-focusable saltar" href="#disenos">Ir a los diseños</a>
+
+  <header class="barra">
+    <div class="container-xxl barra-interior">
+      <a class="barra-marca" href="#inicio">Ink Fever</a>
+      <nav class="barra-nav" aria-label="Principal">
+        <a href="#disenos">Diseños</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a class="btn btn-tinta btn-sm js-whatsapp" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <!-- Hero: el nombre impreso como serigrafía con el registro movido -->
+    <section class="hero">
+      <div class="container-xxl">
+        <h1 class="marca" aria-label="Ink Fever">
+          <span class="marca-linea" data-texto="INK" aria-hidden="true">INK</span>
+          <span class="marca-linea" data-texto="FEVER" aria-hidden="true">FEVER</span>
+        </h1>
+        <div class="hero-pie">
+          <p class="hero-texto">
+            Playeras y sudaderas con diseños propios de tus personajes, series y marcas favoritas.
+            Encuentra el tuyo y pídelo directo por WhatsApp.
+          </p>
+          <div class="hero-acciones">
+            <a class="btn btn-tinta btn-lg" href="#disenos">Ver diseños</a>
+            <a class="btn btn-contorno btn-lg js-instagram" href="#" target="_blank" rel="noopener">Síguenos en Instagram</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carrusel de categorías: cinta continua. Cada nombre filtra la galería. -->
+    <section class="cinta" aria-label="Categorías">
+      <div class="cinta-pista" id="cinta"></div>
+    </section>
+
+    <!-- Galería -->
+    <section class="galeria" id="disenos" aria-labelledby="titulo-disenos">
+      <div class="container-xxl">
+        <div class="galeria-encabezado">
+          <h2 id="titulo-disenos">Diseños</h2>
+          <p class="galeria-ayuda">Busca por personaje, color o estilo. Toca un diseño para verlo completo.</p>
+        </div>
+
+        <div class="filtros">
+          <div class="filtros-busqueda">
+            <label class="visually-hidden" for="buscar">Buscar diseños</label>
+            <input class="form-control" type="search" id="buscar" placeholder="Ej. goku negra" autocomplete="off" maxlength="100">
+          </div>
+          <div class="btn-group filtros-tipo" role="group" aria-label="Tipo de prenda">
+            <input type="radio" class="btn-check" name="tipo" id="tipo-todo" value="" checked>
+            <label class="btn btn-filtro" for="tipo-todo">Todo</label>
+            <input type="radio" class="btn-check" name="tipo" id="tipo-playera" value="playera">
+            <label class="btn btn-filtro" for="tipo-playera">Playeras</label>
+            <input type="radio" class="btn-check" name="tipo" id="tipo-sudadera" value="sudadera">
+            <label class="btn btn-filtro" for="tipo-sudadera">Sudaderas</label>
+          </div>
+          <div id="filtro-categoria" class="filtros-categoria"></div>
+        </div>
+
+        <div id="estado" class="galeria-estado" role="status" aria-live="polite"></div>
+        <ul id="rejilla" class="rejilla" aria-label="Lista de diseños"></ul>
+
+        <div class="galeria-mas">
+          <button id="cargar-mas" class="btn btn-contorno" type="button" hidden>Ver más diseños</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section class="contacto" id="contacto" aria-labelledby="titulo-contacto">
+      <div class="container-xxl contacto-interior">
+        <h2 id="titulo-contacto">¿Ya elegiste tu diseño?</h2>
+        <p>Mándanos el nombre del diseño y te decimos tallas, colores disponibles y precio.</p>
+        <div class="contacto-acciones">
+          <a class="btn btn-fiebre btn-lg js-whatsapp" href="#" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+          <a class="btn btn-contorno-claro btn-lg js-instagram" href="#" target="_blank" rel="noopener">Ver Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="container-xxl pie-interior">
+      <span>© <span id="anio"></span> Ink Fever</span>
+      <a class="js-instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </footer>
+
+  <!-- Detalle de una prenda -->
+  <div class="modal fade" id="modal-prenda" tabindex="-1" aria-labelledby="modal-titulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
+      <div class="modal-content detalle">
+        <button type="button" class="btn-close detalle-cerrar" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <div class="detalle-rejilla">
+          <div class="detalle-galeria">
+            <img id="detalle-imagen" class="detalle-imagen" alt="">
+            <div id="detalle-miniaturas" class="detalle-miniaturas"></div>
+          </div>
+          <div class="detalle-info">
+            <p id="detalle-tipo" class="detalle-tipo"></p>
+            <h2 id="modal-titulo" class="detalle-titulo"></h2>
+            <p id="detalle-descripcion" class="detalle-descripcion"></p>
+            <div id="detalle-etiquetas" class="etiquetas"></div>
+            <div class="detalle-acciones">
+              <a id="detalle-whatsapp" class="btn btn-tinta btn-lg" target="_blank" rel="noopener">Pedir este diseño</a>
+              <a class="btn btn-contorno js-instagram" href="#" target="_blank" rel="noopener">Ver más en Instagram</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script type="module" src="js/landing.js"></script>
+</body>
+</html>

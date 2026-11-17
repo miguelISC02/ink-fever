@@ -1,0 +1,155 @@
+/* ==========================================================
+   Ink Fever · Base compartida (landing y panel)
+   Concepto: serigrafía. Algodón blanco, tinta negra,
+   magenta y cian de proceso, malla gris.
+   ========================================================== */
+:root {
+  --algodon: #ffffff;
+  --papel: #f1f1ee;        /* fondo de fotos y superficies */
+  --malla: #d9d9d3;        /* bordes */
+  --tinta: #000000;
+  --tinta-suave: #4b4b47;  /* texto secundario (contraste AA sobre blanco) */
+  --fiebre: #ff2e88;       /* magenta fluorescente */
+  --fiebre-oscuro: #c8005f;
+  --cian: #00a3e0;
+
+  --fuente: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --radio: 4px;
+
+  --bs-body-font-family: var(--fuente);
+  --bs-body-color: var(--tinta);
+  --bs-body-bg: var(--algodon);
+  --bs-border-color: var(--malla);
+  --bs-border-radius: var(--radio);
+  --bs-link-color-rgb: 0, 0, 0;
+  --bs-link-hover-color-rgb: 200, 0, 95;
+  --bs-focus-ring-color: rgba(0, 163, 224, 0.45);
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-stretch: 75%;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+::selection { background: var(--fiebre); color: var(--algodon); }
+
+:focus-visible {
+  outline: 3px solid var(--cian);
+  outline-offset: 2px;
+}
+
+.saltar {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 2000;
+  padding: 0.5rem 1rem;
+  background: var(--tinta);
+  color: var(--algodon);
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  --bs-btn-font-weight: 700;
+  --bs-btn-border-radius: var(--radio);
+  font-stretch: 87.5%;
+}
+
+.btn-tinta {
+  --bs-btn-color: var(--algodon);
+  --bs-btn-bg: var(--tinta);
+  --bs-btn-border-color: var(--tinta);
+  --bs-btn-hover-color: var(--algodon);
+  --bs-btn-hover-bg: var(--fiebre-oscuro);
+  --bs-btn-hover-border-color: var(--fiebre-oscuro);
+  --bs-btn-active-bg: var(--fiebre-oscuro);
+  --bs-btn-active-border-color: var(--fiebre-oscuro);
+  --bs-btn-active-color: var(--algodon);
+  --bs-btn-disabled-bg: var(--tinta-suave);
+  --bs-btn-disabled-border-color: var(--tinta-suave);
+}
+
+.btn-fiebre {
+  --bs-btn-color: var(--tinta);
+  --bs-btn-bg: var(--fiebre);
+  --bs-btn-border-color: var(--fiebre);
+  --bs-btn-hover-color: var(--tinta);
+  --bs-btn-hover-bg: var(--algodon);
+  --bs-btn-hover-border-color: var(--algodon);
+  --bs-btn-active-bg: var(--algodon);
+  --bs-btn-active-color: var(--tinta);
+}
+
+.btn-contorno {
+  --bs-btn-color: var(--tinta);
+  --bs-btn-border-color: var(--tinta);
+  --bs-btn-hover-color: var(--algodon);
+  --bs-btn-hover-bg: var(--tinta);
+  --bs-btn-hover-border-color: var(--tinta);
+  --bs-btn-active-bg: var(--tinta);
+  --bs-btn-active-color: var(--algodon);
+  border-width: 2px;
+}
+
+.btn-contorno-claro {
+  --bs-btn-color: var(--algodon);
+  --bs-btn-border-color: var(--algodon);
+  --bs-btn-hover-color: var(--tinta);
+  --bs-btn-hover-bg: var(--algodon);
+  --bs-btn-hover-border-color: var(--algodon);
+  --bs-btn-active-bg: var(--algodon);
+  --bs-btn-active-color: var(--tinta);
+  border-width: 2px;
+}
+
+/* ---------- Etiquetas (chips) ---------- */
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.625rem;
+  border: 1px solid var(--malla);
+  border-radius: 999px;
+  background: var(--algodon);
+  color: var(--tinta-suave);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+button.etiqueta { cursor: pointer; }
+button.etiqueta:hover { border-color: var(--tinta); color: var(--tinta); }
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--cian);
+  box-shadow: 0 0 0 0.2rem var(--bs-focus-ring-color);
+}
+
+.form-check-input:checked {
+  background-color: var(--tinta);
+  border-color: var(--tinta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
