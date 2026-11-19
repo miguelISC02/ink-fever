@@ -12,5 +12,5 @@ export const CONFIG = {
 
   // Contacto. WhatsApp con lada de país y sin "+" ni espacios: 52 + 10 dígitos
   whatsapp: "5572281869",
-  instagram: "inkfever",
+  instagram: "inkfeverofic",
 };
