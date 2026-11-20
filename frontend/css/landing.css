@@ -433,3 +433,5 @@ html { scroll-behavior: smooth; scroll-padding-top: calc(var(--alto-barra) + 5re
 .pie-interior { display: flex; justify-content: space-between; gap: 1rem; }
 
 .pie a { color: var(--tinta); }
+
+

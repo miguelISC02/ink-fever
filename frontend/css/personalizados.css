@@ -1,0 +1,361 @@
+/* ==========================================================
+   Ink Fever · Sección "Personalizados"
+   La sección mide 6 pantallas de alto; la escena se queda fija (sticky)
+   y el JS mueve la playera según el scroll.
+   ========================================================== */
+.perso {
+  --pasos: 6;
+  position: relative;
+  height: calc(var(--pasos) * 100svh);
+  background: var(--papel);
+}
+
+.perso-escena {
+  --tam: min(44vh, 26rem);       /* tamaño de la playera */
+  --color-playera: #f4f4f0;
+  position: sticky;
+  top: var(--alto-barra);
+  height: calc(100svh - var(--alto-barra));
+  overflow: hidden;
+}
+
+/* ---------- Encabezado ---------- */
+.perso-encabezado {
+  position: absolute;
+  top: clamp(1.25rem, 4vh, 2.5rem);
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding-inline: max(1.5rem, calc((100vw - 1320px) / 2 + 0.75rem));
+}
+
+.perso-encabezado h2 {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 900;
+  font-stretch: 62.5%;
+  line-height: 0.95;
+}
+
+.perso-encabezado p { margin: 0.25rem 0 0; color: var(--tinta-suave); }
+
+/* ---------- La playera y sus accesorios ---------- */
+.perso-objeto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--tam);
+  aspect-ratio: 400 / 440;
+  margin: calc(var(--tam) * -0.55) 0 0 calc(var(--tam) * -0.5);
+  transform: translate3d(var(--x, 0px), 0, 0);
+  will-change: transform;
+}
+
+.perso-giro {
+  width: 100%;
+  height: 100%;
+  transform: perspective(1100px) rotateY(var(--ry, 0deg)) rotateZ(var(--rz, 0deg));
+  will-change: transform;
+}
+
+.perso-encoger {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.5, 0, 0.2, 1);
+}
+
+.perso-playera { display: block; width: 100%; height: 100%; overflow: visible; }
+
+.perso-cuerpo {
+  fill: var(--color-playera);
+  stroke: rgba(0, 0, 0, 0.14);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  transition: fill 0.35s ease;
+}
+
+.perso-cuello { fill: rgba(0, 0, 0, 0.14); }
+.perso-costura { fill: none; stroke: rgba(0, 0, 0, 0.12); stroke-width: 2; }
+
+/* Paso 1: boceto */
+.perso-boceto { opacity: 0; transition: opacity 0.3s ease; }
+
+.perso-boceto-contorno {
+  fill: none;
+  stroke: var(--cian);
+  stroke-width: 3;
+  stroke-dasharray: 10 8;
+  stroke-linejoin: round;
+}
+
+.perso-boceto-trazo {
+  fill: none;
+  stroke: var(--fiebre);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+/* Paso 3 en adelante: diseño en tres tintas (como serigrafía) */
+.perso-arte-texto {
+  font-family: var(--fuente);
+  font-size: 44px;
+  font-weight: 900;
+  font-stretch: 62.5%;
+}
+
+.perso-tinta {
+  opacity: 0;
+  transform: translateY(-28px);
+  mix-blend-mode: screen;
+  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.perso-tinta-m { color: var(--fiebre); }
+.perso-tinta-c { color: var(--cian); transition-delay: 0.15s; }
+.perso-tinta-b { color: #ffffff; transition-delay: 0.3s; }
+
+/* Paso 2: muestras de color */
+.perso-chips {
+  position: absolute;
+  inset: auto 0 -2.75rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.perso-chip {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid var(--algodon);
+  border-radius: 50%;
+  background: var(--chip);
+  box-shadow: 0 0 0 1px var(--malla);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.perso-chip.activo {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 2px var(--tinta);
+}
+
+/* Paso 4: cotización */
+.perso-cotizacion {
+  position: absolute;
+  right: -28%;
+  bottom: 6%;
+  width: min(14rem, 62%);
+  padding: 1rem 1rem 0.85rem;
+  background: var(--algodon);
+  border: 2px solid var(--tinta);
+  border-radius: var(--radio);
+  font-size: 0.875rem;
+  transform-origin: 50% -1.5rem;
+  opacity: 0;
+  transform: translateY(-1rem) rotate(-14deg);
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.perso-hilo {
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  width: 2px;
+  height: 1.5rem;
+  background: var(--tinta);
+}
+
+.perso-cotizacion-titulo { margin: 0 0 0.5rem; font-weight: 900; font-stretch: 75%; font-size: 1.125rem; }
+
+.perso-cotizacion ul { margin: 0; padding: 0; list-style: none; }
+
+.perso-cotizacion li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem 0;
+  border-bottom: 1px dashed var(--malla);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.perso-cotizacion li b { color: var(--fiebre-oscuro); }
+
+.perso-cotizacion-total {
+  margin: 0.6rem 0 0;
+  padding: 0.35rem 0.5rem;
+  background: var(--tinta);
+  color: var(--algodon);
+  font-weight: 700;
+  text-align: center;
+  border-radius: var(--radio);
+}
+
+/* Paso 5: caja */
+.perso-caja {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -6%;
+  opacity: 0;
+  transform: translateY(40%);
+  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.perso-caja svg { display: block; width: 100%; overflow: visible; }
+.perso-caja-frente { fill: #c9a06b; stroke: #8a6a40; stroke-width: 3; }
+.perso-solapa { fill: #b48a55; stroke: #8a6a40; stroke-width: 3; transform-box: fill-box; transition: transform 0.45s ease 0.75s; }
+.perso-solapa-izq { transform-origin: 100% 100%; transform: rotate(-150deg); }
+.perso-solapa-der { transform-origin: 0% 100%; transform: rotate(150deg); }
+.perso-caja-texto { font-family: var(--fuente); font-size: 34px; font-weight: 900; font-stretch: 62.5%; fill: var(--tinta); }
+
+/* Paso 6: marcas de registro */
+.perso-destellos svg {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin: -1rem 0 0 -1rem;
+  fill: none;
+  stroke-width: 2.5;
+  opacity: 0;
+  transform: scale(0.2);
+  transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.2, 1.3, 0.4, 1);
+}
+
+.perso-destellos svg:nth-child(odd) { stroke: var(--fiebre); }
+.perso-destellos svg:nth-child(even) { stroke: var(--cian); }
+.perso-destellos svg:nth-child(2) { transition-delay: 0.05s; }
+.perso-destellos svg:nth-child(3) { transition-delay: 0.1s; }
+.perso-destellos svg:nth-child(4) { transition-delay: 0.15s; }
+.perso-destellos svg:nth-child(5) { transition-delay: 0.2s; }
+.perso-destellos svg:nth-child(6) { transition-delay: 0.25s; }
+
+/* ---------- Estados por paso ---------- */
+.perso-escena[data-paso="1"] .perso-boceto { opacity: 1; }
+.perso-escena[data-paso="1"] .perso-boceto-trazo { animation: perso-dibujar 1.4s ease-out 0.2s forwards; }
+
+.perso-escena[data-paso="2"] .perso-chips { opacity: 1; transform: none; }
+
+.perso-escena:is([data-paso="3"], [data-paso="4"], [data-paso="5"], [data-paso="6"]) .perso-tinta { opacity: 1; }
+.perso-escena:is([data-paso="3"], [data-paso="4"], [data-paso="5"], [data-paso="6"]) .perso-tinta-m { transform: translate(-6px, 4px); }
+.perso-escena:is([data-paso="3"], [data-paso="4"], [data-paso="5"], [data-paso="6"]) .perso-tinta-c { transform: translate(5px, -3px); }
+.perso-escena:is([data-paso="3"], [data-paso="4"], [data-paso="5"], [data-paso="6"]) .perso-tinta-b { transform: none; }
+
+.perso-escena[data-paso="4"] .perso-cotizacion { opacity: 1; transform: rotate(4deg); animation: perso-balanceo 2.6s ease-in-out 0.6s infinite alternate; }
+.perso-escena[data-paso="4"] .perso-cotizacion li { opacity: 1; }
+.perso-escena[data-paso="4"] .perso-cotizacion li:nth-child(1) { transition-delay: 0.35s; }
+.perso-escena[data-paso="4"] .perso-cotizacion li:nth-child(2) { transition-delay: 0.55s; }
+.perso-escena[data-paso="4"] .perso-cotizacion li:nth-child(3) { transition-delay: 0.75s; }
+
+.perso-escena[data-paso="5"] .perso-encoger { transform: translateY(24%) scale(0.5); }
+.perso-escena[data-paso="5"] .perso-caja { opacity: 1; transform: none; }
+.perso-escena[data-paso="5"] .perso-solapa { transform: none; }
+
+.perso-escena[data-paso="6"] .perso-encoger { transform: scale(1.06); }
+.perso-escena[data-paso="6"] .perso-destellos svg {
+  opacity: 1;
+  transform: translate(calc(var(--dx) * var(--tam)), calc(var(--dy) * var(--tam))) rotate(var(--r)) scale(1);
+}
+
+@keyframes perso-dibujar { to { stroke-dashoffset: 0; } }
+@keyframes perso-balanceo { from { transform: rotate(4deg); } to { transform: rotate(-3deg); } }
+
+/* ---------- Texto de los pasos ---------- */
+.perso-pasos {
+  position: absolute;
+  top: 50%;
+  width: min(28rem, 34vw);
+  height: 16rem;
+  margin: -6rem 0 0;
+  padding: 0;
+  list-style: none;
+  transition: left 0s 0.25s, right 0s 0.25s;
+}
+
+.perso-escena[data-lado="derecha"] .perso-pasos { left: max(1.5rem, calc((100vw - 1320px) / 2 + 0.75rem)); right: auto; }
+.perso-escena[data-lado="izquierda"] .perso-pasos { right: max(1.5rem, calc((100vw - 1320px) / 2 + 0.75rem)); left: auto; }
+
+.perso-paso {
+  position: absolute;
+  inset: 0 0 auto;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.25s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.perso-paso.activo {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0.25s;
+}
+
+.perso-paso-numero { margin: 0 0 0.5rem; color: var(--fiebre-oscuro); font-weight: 700; }
+
+.perso-paso h3 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 900;
+  font-stretch: 62.5%;
+  line-height: 0.95;
+}
+
+.perso-paso p:not(.perso-paso-numero) { margin: 0 0 1.25rem; max-width: 32ch; font-size: 1.0625rem; }
+
+/* ---------- Barra de progreso ---------- */
+.perso-progreso {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  gap: 0.375rem;
+  transform: translateX(-50%);
+}
+
+.perso-progreso button {
+  width: 2.25rem;
+  height: 0.375rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--malla);
+  transition: background 0.2s ease, width 0.2s ease;
+}
+
+.perso-progreso button[aria-current="step"] { width: 3.5rem; background: var(--tinta); }
+
+/* ---------- Celular: playera arriba, texto abajo ---------- */
+@media (max-width: 767.98px) {
+  .perso-escena { --tam: min(62vw, 34vh); }
+  .perso-objeto { top: 41%; }
+  .perso-cotizacion { right: -18%; width: 9.5rem; padding: 0.6rem; font-size: 0.75rem; }
+  .perso-cotizacion-titulo { font-size: 0.95rem; }
+
+  .perso-pasos,
+  .perso-escena[data-lado] .perso-pasos {
+    top: auto;
+    right: 1.25rem;
+    bottom: 3rem;
+    left: 1.25rem;
+    width: auto;
+    height: 10.5rem;
+    margin: 0;
+  }
+
+  .perso-paso h3 { font-size: 2rem; margin-bottom: 0.4rem; }
+  .perso-paso p:not(.perso-paso-numero) { font-size: 0.95rem; margin-bottom: 0.75rem; }
+  .perso-paso-numero { margin-bottom: 0.25rem; font-size: 0.875rem; }
+  .perso-paso .btn-lg { --bs-btn-padding-y: 0.5rem; --bs-btn-font-size: 1rem; }
+}
+
+/* Sin animaciones: los pasos cambian, pero la playera no gira */
+@media (prefers-reduced-motion: reduce) {
+  .perso-boceto-trazo { stroke-dashoffset: 0; }
+}
