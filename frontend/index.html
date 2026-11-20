@@ -19,8 +19,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/landing.css">
-  <link rel="stylesheet" href="css/personalizados.css">
-  <script type="module" src="js/personalizados.js"></script></head>
+</head>
 <body>
   <a class="visually-hidden-focusable saltar" href="#disenos">Ir a los diseños</a>
 
@@ -30,7 +29,7 @@
       <nav class="barra-nav" aria-label="Principal">
         <a href="#disenos">Diseños</a>
         <a href="#contacto">Contacto</a>
-        <a href="#personalizados">Personalizados</a>
+        <a href="personalizados.html">Personalizados</a>
       </nav>
       <a class="btn btn-tinta btn-sm js-whatsapp" href="#" target="_blank" rel="noopener">Pedir por WhatsApp</a>
     </div>
@@ -139,146 +138,11 @@
       </div>
     </div>
   </div>
-
-  <!-- ================= Personalizados =================
-         Sección con scroll: la escena se queda fija y la playera recorre los 6 pasos. -->
-    <section class="perso" id="personalizados" aria-labelledby="titulo-perso">
-      <div class="perso-escena" data-paso="1" data-lado="derecha">
-
-        <header class="perso-encabezado">
-          <h2 id="titulo-perso">Personalizados</h2>
-          <p>¿Tienes una idea? Así la convertimos en tu playera.</p>
-        </header>
-
-        <!-- Lo visual: decorativo, el contenido real está en la lista de pasos -->
-        <div class="perso-objeto" aria-hidden="true">
-          <div class="perso-giro">
-            <div class="perso-encoger">
-              <svg class="perso-playera" viewBox="0 0 400 440">
-                <defs>
-                  <symbol id="perso-arte" viewBox="0 0 400 440">
-                    <circle cx="200" cy="205" r="44" fill="none" stroke="currentColor" stroke-width="11"/>
-                    <path d="M200 147v116M142 205h116" stroke="currentColor" stroke-width="8"/>
-                    <text x="200" y="312" text-anchor="middle" fill="currentColor" class="perso-arte-texto">TU DISEÑO</text>
-                  </symbol>
-                </defs>
-
-                <!-- Prenda -->
-                <path class="perso-cuerpo"
-                      d="M130 40 L95 55 L20 120 L60 175 L100 150 L100 410 L300 410 L300 150 L340 175 L380 120 L305 55 L270 40 Q200 95 130 40 Z"/>
-                <path class="perso-cuello" d="M130 40 Q200 95 270 40 Q200 72 130 40 Z"/>
-                <path class="perso-costura" d="M100 392 H300 M60 175 L100 150 M340 175 L300 150"/>
-
-                <!-- Paso 1: boceto -->
-                <g class="perso-boceto">
-                  <path class="perso-boceto-contorno"
-                        d="M130 40 L95 55 L20 120 L60 175 L100 150 L100 410 L300 410 L300 150 L340 175 L380 120 L305 55 L270 40 Q200 95 130 40 Z"/>
-                  <path class="perso-boceto-trazo" pathLength="1"
-                        d="M150 250 C160 190 240 180 250 230 S205 300 185 268 S205 205 262 222 S270 300 230 312"/>
-                </g>
-
-                <!-- Paso 3: el diseño impreso en tres tintas -->
-                <g class="perso-diseno">
-                  <use class="perso-tinta perso-tinta-m" href="#perso-arte"/>
-                  <use class="perso-tinta perso-tinta-c" href="#perso-arte"/>
-                  <use class="perso-tinta perso-tinta-b" href="#perso-arte"/>
-                </g>
-              </svg>
-            </div>
-          </div>
-
-          <!-- Paso 2: muestras de color (las controla el scroll) -->
-          <div class="perso-chips">
-            <span class="perso-chip" data-color="#f4f4f0" style="--chip:#f4f4f0"></span>
-            <span class="perso-chip" data-color="#d9cfbb" style="--chip:#d9cfbb"></span>
-            <span class="perso-chip" data-color="#1f3a5f" style="--chip:#1f3a5f"></span>
-            <span class="perso-chip" data-color="#111111" style="--chip:#111111"></span>
-          </div>
-
-          <!-- Paso 4: etiqueta de cotización -->
-          <div class="perso-cotizacion">
-            <span class="perso-hilo"></span>
-            <p class="perso-cotizacion-titulo">Tu cotización</p>
-            <ul>
-              <li>Diseño personalizado <b>✓</b></li>
-              <li>Color y tallas <b>✓</b></li>
-              <li>Impresión <b>✓</b></li>
-            </ul>
-            <p class="perso-cotizacion-total">Precio por WhatsApp</p>
-          </div>
-
-          <!-- Paso 5: caja de entrega -->
-          <div class="perso-caja">
-            <svg viewBox="0 0 300 190">
-              <polygon class="perso-solapa perso-solapa-izq" points="20,40 150,40 150,0 40,0"/>
-              <polygon class="perso-solapa perso-solapa-der" points="150,40 280,40 260,0 150,0"/>
-              <rect class="perso-caja-frente" x="20" y="40" width="260" height="145" rx="4"/>
-              <text class="perso-caja-texto" x="150" y="125" text-anchor="middle">INK FEVER</text>
-            </svg>
-          </div>
-
-          <!-- Paso 6: marcas de registro alrededor -->
-          <div class="perso-destellos">
-            <svg viewBox="0 0 24 24" style="--dx:-0.62;--dy:-0.42;--r:-20deg"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v22M1 12h22"/></svg>
-            <svg viewBox="0 0 24 24" style="--dx:0.64;--dy:-0.30;--r:25deg"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v22M1 12h22"/></svg>
-            <svg viewBox="0 0 24 24" style="--dx:-0.70;--dy:0.12;--r:10deg"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v22M1 12h22"/></svg>
-            <svg viewBox="0 0 24 24" style="--dx:0.70;--dy:0.22;--r:-15deg"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v22M1 12h22"/></svg>
-            <svg viewBox="0 0 24 24" style="--dx:-0.18;--dy:-0.62;--r:35deg"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v22M1 12h22"/></svg>
-            <svg viewBox="0 0 24 24" style="--dx:0.30;--dy:0.58;--r:-30deg"><circle cx="12" cy="12" r="6.5"/><path d="M12 1v22M1 12h22"/></svg>
-          </div>
-        </div>
-
-        <!-- Los pasos (texto) -->
-        <ol class="perso-pasos">
-          <li class="perso-paso">
-            <p class="perso-paso-numero">Paso 1 de 6</p>
-            <h3>Haz tus diseños con nosotros</h3>
-            <p>Tráenos tu idea como la tengas: un dibujo, una foto o solo lo que imaginas.</p>
-          </li>
-          <li class="perso-paso">
-            <p class="perso-paso-numero">Paso 2 de 6</p>
-            <h3>Elige lo que más te guste</h3>
-            <p>Playera o sudadera, color y tallas. Tú decides la base de tu prenda.</p>
-          </li>
-          <li class="perso-paso">
-            <p class="perso-paso-numero">Paso 3 de 6</p>
-            <h3>Nosotros lo diseñamos</h3>
-            <p>Convertimos tu idea en un diseño listo para imprimir y te lo mostramos antes de producirlo.</p>
-          </li>
-          <li class="perso-paso">
-            <p class="perso-paso-numero">Paso 4 de 6</p>
-            <h3>Nosotros te cotizamos</h3>
-            <p>Te mandamos el precio por WhatsApp según piezas, tintas y tallas. Sin sorpresas.</p>
-          </li>
-          <li class="perso-paso">
-            <p class="perso-paso-numero">Paso 5 de 6</p>
-            <h3>Nosotros te entregamos</h3>
-            <p>Imprimimos tu pedido y te avisamos en cuanto está listo para entregártelo.</p>
-          </li>
-          <li class="perso-paso">
-            <p class="perso-paso-numero">Paso 6 de 6</p>
-            <h3>La mejor atención en Ink Fever</h3>
-            <p>Te acompañamos en cada paso, antes y después de tu pedido.</p>
-            <a class="btn btn-tinta btn-lg js-whatsapp-perso" href="#" target="_blank" rel="noopener">Cotizar mi diseño</a>
-          </li>
-        </ol>
-
-        <!-- Progreso: también sirve para saltar a un paso -->
-        <nav class="perso-progreso" aria-label="Pasos de personalización">
-          <button type="button" aria-label="Ir al paso 1"></button>
-          <button type="button" aria-label="Ir al paso 2"></button>
-          <button type="button" aria-label="Ir al paso 3"></button>
-          <button type="button" aria-label="Ir al paso 4"></button>
-          <button type="button" aria-label="Ir al paso 5"></button>
-          <button type="button" aria-label="Ir al paso 6"></button>
-        </nav>
-      </div>
-    </section>
-
     
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script type="module" src="js/landing.js"></script>
+  
   
 </body>
 </html>

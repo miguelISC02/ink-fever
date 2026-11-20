@@ -1,115 +1,87 @@
-// Sección "Personalizados": la playera avanza por 6 pasos según el scroll.
-// En cada cambio de paso da una vuelta completa y se cambia de lado.
-import { enlaceWhatsApp } from "./utils.js";
+// Página "Personalizados": cada paso es una sección y la playera reacciona al scroll.
+// Al entrar, la playera llega girando desde su lado; al salir, gira hacia el lado contrario.
+import { enlaceInstagram, enlaceWhatsApp } from "./utils.js";
 
-const seccion = document.getElementById("personalizados");
+// ---------- Enlaces de contacto ----------
+const mensaje = enlaceWhatsApp("Hola Ink Fever, quiero hacer un diseño personalizado.");
+document.querySelectorAll(".js-whatsapp, .js-whatsapp-perso").forEach((a) => (a.href = mensaje));
+document.querySelectorAll(".js-instagram").forEach((a) => (a.href = enlaceInstagram()));
+document.getElementById("anio").textContent = new Date().getFullYear();
 
-if (seccion) {
-  const escena = seccion.querySelector(".perso-escena");
-  const objeto = seccion.querySelector(".perso-objeto");
-  const giro = seccion.querySelector(".perso-giro");
-  const pasos = [...seccion.querySelectorAll(".perso-paso")];
-  const botones = [...seccion.querySelectorAll(".perso-progreso button")];
-  const chips = [...seccion.querySelectorAll(".perso-chip")];
-  const colores = chips.map((chip) => chip.dataset.color);
-  const sinMovimiento = matchMedia("(prefers-reduced-motion: reduce)");
+// ---------- Animación por sección ----------
+const sinMovimiento = matchMedia("(prefers-reduced-motion: reduce)");
+const INCLINACION = [-5, 4, -3, 5, -2, 3]; // grados en que queda cada playera
 
-  const TOTAL = pasos.length;
-  const INICIO_GIRO = 0.62;                 // en qué parte de cada paso empieza la vuelta
-  const INCLINACION = [-6, 5, -4, 6, 0, -3]; // grados de inclinación en cada paso
-  const PASO_COLOR = 1;                     // índice del paso "Elige lo que más te guste"
+const limitar = (valor, min, max) => Math.min(max, Math.max(min, valor));
+const suavizar = (t) => t * t * (3 - 2 * t);
 
-  const limitar = (valor, min, max) => Math.min(max, Math.max(min, valor));
-  const mezclar = (a, b, t) => a + (b - a) * t;
-  const suavizar = (t) => t * t * (3 - 2 * t);
-  const lado = (indice) => (indice % 2 === 0 ? 1 : -1); // 1 = derecha, -1 = izquierda
+const pasos = [...document.querySelectorAll(".paso")].map((seccion, indice) => ({
+  seccion,
+  indice,
+  prenda: seccion.querySelector(".playera"),
+  visual: seccion.querySelector(".paso-visual"),
+  // Pasos 1, 3 y 5 entran desde la izquierda; 2, 4 y 6 desde la derecha
+  direccion: indice % 2 === 0 ? -1 : 1,
+  muestras: [...seccion.querySelectorAll(".muestra")],
+}));
 
-  let pasoMostrado = 0;
-  let pendiente = false;
+let pendiente = false;
 
-  seccion.querySelector(".js-whatsapp-perso").href =
-    enlaceWhatsApp("Hola Ink Fever, quiero hacer un diseño personalizado.");
+function actualizarPaso(paso, alto) {
+  const { seccion, prenda, visual, direccion, indice } = paso;
+  const caja = seccion.getBoundingClientRect();
+  if (caja.bottom < -alto * 0.25 || caja.top > alto * 1.25) return; // lejos de la pantalla
 
-  function progresoDeScroll() {
-    const caja = seccion.getBoundingClientRect();
-    const recorrido = caja.height - window.innerHeight;
-    return limitar(-caja.top / recorrido, 0, 1) * TOTAL; // de 0 a 6
-  }
+  const mitad = alto / 2 + caja.height / 2;
+  const centro = caja.top + caja.height / 2;
+  const entrada = limitar((alto - caja.top) / mitad, 0, 1);          // 1 cuando está centrada
+  const salida = limitar((alto / 2 - centro) / mitad, 0, 1);         // crece al irse hacia arriba
+  const final = limitar((entrada - 0.8) / 0.2, 0, 1);
 
-  function actualizar() {
-    pendiente = false;
-    const progreso = Math.min(progresoDeScroll(), TOTAL - 0.0001);
-    const indice = Math.floor(progreso);
-    const fraccion = progreso - indice;
-    const esUltimo = indice === TOTAL - 1;
+  seccion.style.setProperty("--e", entrada.toFixed(3));
+  seccion.style.setProperty("--s", salida.toFixed(3));
+  seccion.style.setProperty("--k", final.toFixed(3));
 
-    // Transición hacia el siguiente paso: 0 = quieta, 1 = ya llegó
-    const t = esUltimo ? 0 : suavizar(limitar((fraccion - INICIO_GIRO) / (1 - INICIO_GIRO), 0, 1));
-    const siguiente = Math.min(indice + 1, TOTAL - 1);
+  if (paso.muestras.length) pintarColor(paso, entrada);
+  if (sinMovimiento.matches) return;
 
-    const amplitud = window.innerWidth >= 768 ? window.innerWidth * 0.2 : window.innerWidth * 0.08;
-    const x = mezclar(lado(indice), lado(siguiente), t) * amplitud;
-    const inclinacion = mezclar(INCLINACION[indice], INCLINACION[siguiente], t);
+  const falta = 1 - suavizar(entrada);
+  const ancho = visual.offsetWidth;
 
-    // Vuelta completa entre pasos, más un balanceo suave mientras está quieta
-    const vueltas = sinMovimiento.matches ? 0 : (indice + t) * 360;
-    const balanceo = sinMovimiento.matches ? 0 : Math.sin(fraccion * Math.PI) * 14 * (1 - t);
+  // Entra desde su lado girando; al salir gira y se desplaza hacia el lado contrario
+  const x = direccion * falta * ancho * 0.9 - direccion * salida * ancho * 0.25;
+  const y = falta * 40 - salida * 60;
+  const giroY = direccion * -falta * 100 - direccion * salida * 40;
+  const giroZ = direccion * falta * -12 + INCLINACION[indice] * (1 - falta) - direccion * salida * 6;
 
-    objeto.style.setProperty("--x", `${x.toFixed(1)}px`);
-    giro.style.setProperty("--ry", `${(vueltas + balanceo).toFixed(1)}deg`);
-    giro.style.setProperty("--rz", `${inclinacion.toFixed(2)}deg`);
-
-    // El cambio visual ocurre a media vuelta, cuando la playera está de canto
-    const paso = t > 0.5 ? siguiente : indice;
-    if (paso !== pasoMostrado) mostrarPaso(paso);
-
-    pintarColor(paso, indice, fraccion);
-  }
-
-  function mostrarPaso(paso) {
-    pasoMostrado = paso;
-    escena.dataset.paso = String(paso + 1);
-    escena.dataset.lado = lado(paso) === 1 ? "derecha" : "izquierda";
-    pasos.forEach((elemento, i) => {
-      const activo = i === paso;
-      elemento.classList.toggle("activo", activo);
-      elemento.inert = !activo; // los pasos ocultos no reciben foco
-    });
-    botones.forEach((boton, i) => {
-      if (i === paso) boton.setAttribute("aria-current", "step");
-      else boton.removeAttribute("aria-current");
-    });
-  }
-
-  // Paso 2: el color cambia mientras haces scroll y termina en negro
-  function pintarColor(paso, indice, fraccion) {
-    let elegido;
-    if (paso < PASO_COLOR) elegido = 0;
-    else if (paso > PASO_COLOR) elegido = colores.length - 1;
-    else if (indice < PASO_COLOR) elegido = 0;
-    else elegido = Math.min(colores.length - 1, Math.floor((fraccion / INICIO_GIRO) * colores.length));
-
-    escena.style.setProperty("--color-playera", colores[elegido]);
-    chips.forEach((chip, i) => chip.classList.toggle("activo", paso === PASO_COLOR && i === elegido));
-  }
-
-  function alHacerScroll() {
-    if (pendiente) return;
-    pendiente = true;
-    requestAnimationFrame(actualizar);
-  }
-
-  // Los botones de progreso llevan al inicio de cada paso
-  botones.forEach((boton, i) => {
-    boton.addEventListener("click", () => {
-      const recorrido = seccion.offsetHeight - window.innerHeight;
-      const destino = seccion.offsetTop + recorrido * ((i + 0.25) / TOTAL);
-      window.scrollTo({ top: destino, behavior: sinMovimiento.matches ? "auto" : "smooth" });
-    });
-  });
-
-  mostrarPaso(0);
-  actualizar();
-  window.addEventListener("scroll", alHacerScroll, { passive: true });
-  window.addEventListener("resize", alHacerScroll);
+  prenda.style.setProperty("--px", `${x.toFixed(1)}px`);
+  prenda.style.setProperty("--py", `${y.toFixed(1)}px`);
+  prenda.style.setProperty("--ry", `${giroY.toFixed(1)}deg`);
+  prenda.style.setProperty("--rz", `${giroZ.toFixed(2)}deg`);
 }
+
+// Paso 2: mientras bajas, la playera pasa por cada color de las muestras
+function pintarColor(paso, entrada) {
+  const { muestras, seccion } = paso;
+  const avance = limitar((entrada - 0.12) / 0.83, 0, 0.999);
+  const elegido = Math.floor(avance * muestras.length);
+  seccion.style.setProperty("--color-playera", muestras[elegido].dataset.color);
+  muestras.forEach((muestra, i) => muestra.classList.toggle("activa", i === elegido));
+}
+
+function actualizar() {
+  pendiente = false;
+  const alto = window.innerHeight;
+  pasos.forEach((paso) => actualizarPaso(paso, alto));
+}
+
+function programar() {
+  if (pendiente) return;
+  pendiente = true;
+  requestAnimationFrame(actualizar);
+}
+
+window.addEventListener("scroll", programar, { passive: true });
+window.addEventListener("resize", programar);
+sinMovimiento.addEventListener("change", programar);
+actualizar();
